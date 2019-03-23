@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Parallell programmering</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+					<div class="table">
+					</div>
+			</div>
+		</div>
+	</div>
+
+
+	
+<script>
+	  socket = new WebSocket("ws://" + window.location.host + "/ws")
+    socket.onmessage = event => {
+
+				let table = $(".table")[0]
+
+				// clear table
+				table.innerHTML = ""
+
+				// create header
+				let row = document.createElement("div")
+				row.setAttribute("class", "row header")
+				let cell1 = document.createElement("div")
+				cell1.setAttribute("class", "cell")
+				cell1.append("Namn")
+				let cell2 = document.createElement("div")
+				cell2.setAttribute("class", "cell")
+				cell2.append("Tid")
+				row.append(cell1)
+				row.append(cell2)
+				table.append(row)
+
+				// fill table
+				let h = JSON.parse(event.data).highscores;
+				h.map(elem => {
+					let row = document.createElement("div")
+					row.setAttribute("class", "row")
+					let cell1 = document.createElement("div")
+					cell1.setAttribute("class", "cell")
+					cell1.setAttribute("data-title", "Namn")
+					cell1.append(elem.name)
+					let cell2 = document.createElement("div")
+					cell2.setAttribute("class", "cell")
+					cell2.setAttribute("data-title", "Tid")
+					cell2.append(elem.time)
+					row.appendChild(cell1)
+					row.appendChild(cell2)
+					table.append(row)
+				})
+    }     
+</script>
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>
