@@ -65,7 +65,7 @@ func sendReq(ch chan int, token string) {
 
 	resp, err := (&http.Client{}).Do(req)
 	if err != nil {
-		log.Fatal("7")
+		log.Fatal(err)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {

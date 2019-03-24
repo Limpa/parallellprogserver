@@ -64,7 +64,6 @@ func nextNumber(w http.ResponseWriter, r *http.Request) {
 		writeErrorResponse(&w, "no numbers left", 400)
 		return
 	}
-	time.Sleep(time.Millisecond)
 	w.Write([]byte(`{"number":` + strconv.Itoa(g.array[v]) + `}`))
 }
 

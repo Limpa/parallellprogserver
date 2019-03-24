@@ -4,13 +4,15 @@ var currentView = "highscore";
 highscoreView();
 
 socket.onmessage = event => {
-  clearTable();
-  createHeaders(["Namn", "Tid"]);
   let h = JSON.parse(event.data).highscores;
   highscores = h;
-  h.map(elem => {
-    createRow([elem.name, elem.time])
-  })
+  if (currentView === "highscore"){
+    clearTable();
+    createHeaders(["Namn", "Tid"]);
+    h.map(elem => {
+      createRow([elem.name, elem.time])
+    })
+  }
 }
 
 function clearTable(){
@@ -41,6 +43,7 @@ function createRow(row){
 }
 
 function apiView(){
+  currentView = "API";
   $("#Topbtn").attr("class", "");
   $("#APIbtn").attr("class", "active");
   let table = $("#table")
@@ -60,6 +63,7 @@ function apiView(){
 }
 
 function highscoreView(){
+  currentView = "highscore";
   $("#Topbtn").attr("class", "active");
   $("#APIbtn").attr("class", "");
   let table = $("#table")

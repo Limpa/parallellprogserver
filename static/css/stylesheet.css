@@ -1,7 +1,11 @@
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: #333;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  background-color: #393939;
   overflow: hidden;
+  font-family: Lato-Bold;
 }
 
 /* Style the links inside the navigation bar */
@@ -22,6 +26,21 @@
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #4CAF50;
+  background-color: #00ad5f;
   color: white;
+}
+
+.bg-image {
+  /* The image used */
+  background-image: url("../images/background.jpg");
+  z-index: -1;
+  /* Add the blur effect */
+  /*filter: blur(8px);
+  -webkit-filter: blur(8px);
+  /* Full height */
+  height: 100%; 
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
