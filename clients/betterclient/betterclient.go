@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-const url = "http://localhost:8080"
+const url = "http://inda.limpdapimp.se"
 const no_jobs = 1000
 
 func main() {

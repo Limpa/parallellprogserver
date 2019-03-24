@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	url     = "http://localhost:8080"
+	url     = "http://inda.limpdapimp.se"
 	workers = 50
 	no_jobs = 1000
 )
