@@ -46,6 +46,7 @@ function apiView(){
   currentView = "API";
   $("#Topbtn").attr("class", "");
   $("#APIbtn").attr("class", "active");
+  $("#Solutionbtn").attr("class", "");
   let table = $("#table")
   table.fadeOut(200, () => {
     clearTable();
@@ -66,6 +67,7 @@ function highscoreView(){
   currentView = "highscore";
   $("#Topbtn").attr("class", "active");
   $("#APIbtn").attr("class", "");
+  $("#Solutionbtn").attr("class", "");
   let table = $("#table")
   table.fadeOut(200, () => {
     clearTable();
@@ -75,4 +77,36 @@ function highscoreView(){
     });
     table.fadeIn(200);
   });
+}
+
+function solutionView(){
+  currentView = "solution";
+  $("#Topbtn").attr("class", "");
+  $("#APIbtn").attr("class", "");
+  $("#Solutionbtn").attr("class", "active");
+  let data = fetch("http://" + window.location.host + "/solutions")
+  let table = $("#table")
+  table.fadeOut(200, () => {
+    clearTable();
+    data
+      .then(res => {
+        if (res.status == 200)
+          return res.json()
+        throw "not allowed"
+      })
+      .then(json => {
+        createHeaders(["Namn", "Länk"]);
+        json.solutions.map(s => {
+          let link = document.createElement("a")
+          link.setAttribute("href", s.link);
+          link.append("github");
+          createRow([s.name, link])
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        $("#header").append('<div style="display: flex; padding: 5px; align-items:center; justify-content: center;"><img src="images/lock.svg"/></div>')
+      })
+    table.fadeIn(200);
+  }); 
 }

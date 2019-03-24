@@ -17,14 +17,34 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-const arraysize = 1000
+const (
+	arraysize = 1000
+	secret    = "ff961dc5e8da688fa78540651160b223"
+)
 
 var (
-	highscores  []highscore
-	activegames map[int]*game
-	sockets     []*websocket.Conn
-	upgrader    websocket.Upgrader
+	highscores    []highscore
+	activegames   map[int]*game
+	sockets       []*websocket.Conn
+	upgrader      websocket.Upgrader
+	sbytes        []byte
+	sendSolutions = false
+	s             = [3]solution{
+		{"naive", "https://gits-15.sys.kth.se/gist/linusri/47391dc55a3c5ad05052ce229b77637e"},
+		{"better", "https://gits-15.sys.kth.se/gist/linusri/c619408d3f415356096e69882b2215f4"},
+		{"worker", "https://gits-15.sys.kth.se/gist/linusri/7eeaca9a50b22a4cea3c9b16711b5955"},
+	}
 )
+
+type solution struct {
+	Name string `json:"name"`
+	Link string `json:"link"`
+}
+
+type checkAnswerReq struct {
+	Sum  int    `json:"sum"`
+	Name string `json:"name"`
+}
 
 type highscore struct {
 	elapsedTime time.Duration
@@ -69,11 +89,6 @@ func nextNumber(w http.ResponseWriter, r *http.Request) {
 
 func writeErrorResponse(w *http.ResponseWriter, err string, errcode int) {
 	http.Error(*w, `{"error":"`+err+`"}`, errcode)
-}
-
-type checkAnswerReq struct {
-	Sum  int    `json:"sum"`
-	Name string `json:"name"`
 }
 
 func getToken(r *http.Request, w *http.ResponseWriter) (*game, int, error) {
@@ -146,7 +161,34 @@ func getHighscoreByteArray() []byte {
 	return buffer.Bytes()
 }
 
+func solutions(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "POST":
+		if r.Header.Get("Auth") != secret {
+			writeErrorResponse(&w, "provide secret in Auth header, hint MD5", 401)
+			return
+		}
+		sendSolutions = true
+		w.Write([]byte(`{"status":"success"}`))
+	case "GET":
+		if !sendSolutions {
+			writeErrorResponse(&w, "forbidden", 403)
+			return
+		}
+		w.Write(sbytes)
+	default:
+		writeErrorResponse(&w, "method not allowed", 405)
+	}
+}
+
 func main() {
+	var err error
+	sbytes, err = json.Marshal(struct {
+		Solutions [3]solution `json:"solutions"`
+	}{s})
+	if err != nil {
+		log.Fatal(err)
+	}
 	highscores = make([]highscore, 0)
 	activegames = make(map[int]*game, 0)
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -156,7 +198,7 @@ func main() {
 	http.HandleFunc("/next", nextNumber)
 	http.HandleFunc("/answer", checkAnswer)
 	http.HandleFunc("/ws", ws)
-
+	http.HandleFunc("/solutions", solutions)
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
