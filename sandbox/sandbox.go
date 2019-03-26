@@ -39,7 +39,7 @@ func compileAndExecute(f *multipart.File) error {
 		return err
 	}
 	ioutil.WriteFile("/tmp/tmp.go", fb, 0644)
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	if exec.CommandContext(ctx, "go", "run", "/tmp/tmp.go").Run(); err != nil {
 		return err
