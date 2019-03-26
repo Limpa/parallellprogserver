@@ -70,7 +70,7 @@ function apiView(){
     Ett område där dötid naturligt uppstår är internetprogrammering. Varje gång ett anrop skickas
     måste vi vänta på att servern ska svara. </p>
     <p>Övningen går ut på att summera ett antal tal som skickas från en server.</p>
-    <p>Servern går att ladda ned <a style="color:#00ad5f;" href="www.google.com">här</a> för att köras lokalt. När du har skapat en lösning 
+    <p>Servern går att ladda ned <a style="color:#00ad5f;" href="https://gist.github.com/Limpa/82c1b204e40892d4a57ec8d40bce94a6">här</a> för att köras lokalt. När du har skapat en lösning 
     kan du ladda upp den här för att vara med på topplistan.</p>
     <p>För att lösa problemet behöver du göra följande:</p>
     <p>1. Skicka ett anrop till /new för att få en "token" att identifiera dig med</p>
