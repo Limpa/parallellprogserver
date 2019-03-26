@@ -44,3 +44,70 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+#form-div {
+  display: flex;
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width: 480px;
+  margin: 50px auto;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+#form-div.highlight {
+  border-color: #00ad5f;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+  padding: 5px;
+  cursor: pointer;
+  font-family: Lato-Regular;
+  color: white;
+  display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  color: #393939;
+}
+
+input[type=submit] {
+  background-color: #00ad5f;
+  border: none;
+  color: #fff;
+  font-family: Lato-Regular;
+  padding: 5px 20px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.title-text {
+  font-family: Lato-Bold;
+  color: white;
+  font-size: 30;
+  align-self: center;
+  justify-self: center;
+  margin-bottom: 10px;
+}
+
+#topcontent {
+  display: flex;
+  flex-direction: column;
+}
